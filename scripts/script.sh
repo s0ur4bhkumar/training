@@ -1,9 +1,9 @@
 # !/bin/bash
 
 Date=$(date +%F)
-LogFile='/home/sourabh/work/logs/backup.logs'
-dest='/home/sourabh/work/archives'
-backup='/home/sourabh/work/projects'
+LogFile='/home/sourabh/work/training/logs/backup.logs'
+dest='/home/sourabh/work/training/archives'
+backup='/home/sourabh/work/training/projects'
 
 echo "Enter the number of files to be kept"
 
@@ -23,12 +23,17 @@ do
 done
 
 total_projects=$(find ""$backup/* -maxdepth 0 -type d | wc -l)
-echo "total_projects: $total_projects"
-echo "files to be kept: $n_files"
 
-a=0
-while [ $a -le $((total_projects - n_files)) ];
+i=0
+
+for f in "$dest"/*;
 do
-    echo $a
-    ((a++))
+  name=$(basename $f)
+  if [ "$i" -lt $((total_projects - n_files)) ]; then
+    echo "removing $f from archives"
+  log_message "INFO" "removinr $name from archives"
+    rm -rf "$f"
+    ((i++))
+  fi
 done
+
