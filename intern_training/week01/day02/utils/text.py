@@ -5,7 +5,8 @@ clean_text(): This is used to clean  a text in case of extra spaces, wrong cases
 
 tokenize(): This is used to tokenize a string and store it in list
 
-count_chars(): This returns a dictionary which contains the chars as index and thier frequencies in given string
+count_chars(): This returns a dictionary which contains the chars and their frequencies
+                as key/values
 
 """
 
@@ -18,8 +19,7 @@ def clean_text(s: str) -> str:
     """
     if len(s.split()) - 1 == s.count(" "):
         return s
-    else:
-        return clean_text(s.replace("  ", " ").lower().strip())
+    return clean_text(s.replace("  ", " ").lower().strip())
     # return s.lower().strip()
 
 
