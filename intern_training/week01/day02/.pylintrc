@@ -1,5 +1,5 @@
 [MASTER]
-ignore-paths=^\.venv/.*
+ignore-paths=^(.*/)?venv/.*
 
 [FORMAT]
 max-line-length = 88
