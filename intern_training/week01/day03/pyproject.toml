@@ -16,4 +16,5 @@ force-exclude = '''
 
 '''
 
-
+[tool.basedpyright]
+reportIgnoreCommentWithoutRule = false

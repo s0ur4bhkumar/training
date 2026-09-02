@@ -16,7 +16,7 @@
    - **Context managers**: `with` statement, understanding `__enter__` and `__exit__`
    - Practice: Implement safe parsing and error handling with `try/except` and early returns.
 2) CSV stats CLI
-   - Create `tools/csv_stats.py` with CLI args: `--file <path>`, `--top <n>`, `--column <name>`.
+   - Create `tools/csv_stats.py` with CLI args: `--file <path>`, `--top <n>`, `--column <name>`
    - Output: row count, numeric column summary (min/max/mean), and top-N rows by the selected column.
    - Use `argparse` and `pathlib`.
    - Use sample input: `intern_training/data/energy/hourly_prices.csv` with `--column price`.
