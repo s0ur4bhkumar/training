@@ -1,3 +1,7 @@
+'''
+practice module: type_hints
+'''
+
 from typing import Callable
 
 

@@ -1,3 +1,7 @@
+"""
+practice module: functions
+"""
+
 from statistics import mean, median
 
 
