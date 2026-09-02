@@ -15,7 +15,7 @@ A set of tools to handle and perform some basic operations on a dataframe or csv
   - python3 tools/csv_stats.py --file="hourly_prices.csv" --column=price --top=4
 
   result:
-  ![sample csv_stat result](../csv_stats.png)
+  ![sample csv_stat result](csv_stats.png)
 
 - **load_csv**: A python module which takes a csv file path as parametere and returns a list of dictionary
   result:
