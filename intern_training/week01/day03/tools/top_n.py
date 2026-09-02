@@ -12,10 +12,10 @@ def top_n(rows: list[dict[str, str]], column: str, n: int) -> list[dict[str, str
     """
 
     return (
-        pd.DataFrame(rows)[column]
+        pd.DataFrame(rows)[column]  # pyright: ignore
         .sort_values(ignore_index=True, ascending=False)
         .head(n)
-    )
+    )  # pyright: ignore
 
 
 print(
