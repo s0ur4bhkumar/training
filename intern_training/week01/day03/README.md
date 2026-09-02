@@ -24,7 +24,7 @@ A set of tools to handle and perform some basic operations on a dataframe or csv
     print(load_csv("../../data/energy/hourly_prices.csv"))
   ```
 
-  ![sample load_csv result](../load_csv.png)
+  ![sample load_csv result](load_csv.png)
 
 - **summerize_numeric**:A python module to to give a basic summary of a given list of dictionaries based on column name
   sample result:
@@ -45,7 +45,7 @@ A set of tools to handle and perform some basic operations on a dataframe or csv
 
 ```
 
-![sample load_csv result](../summerize_tool.png)
+![sample load_csv result](summerize_tool.png)
 
 - **top_n**: A python module to sort the given top n rows in descending order
 
@@ -68,7 +68,7 @@ print(
 
 ```
 
-![sample top_n result](../summerize_tool.png)
+![sample top_n result](summerize_tool.png)
 
 ## Tech stack
 
