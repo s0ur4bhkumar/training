@@ -1,13 +1,36 @@
 """
 cli tool for analysing csv files
-put your csv file in the directory: intern_training/data/energy/hourly_prices.csv
 """
 
 import argparse
+import sys
 from pathlib import Path
 from typing import Protocol
 
 import pandas as pd
+
+
+def help():
+    print("""
+   A cli tool which gives basic stats of a csv file
+
+     Arguments of cli:
+
+     --file: name of the file to be analyzed (not optional)
+     --top: for view only top n files,by default it will return all the rows (type:int, optional)
+     --column: name of the column to be analyzed (not optional)
+
+     use case:
+
+     - python3 tools/csv_stats.py --file="hourly_prices.csv" --column=price --top=5  #default arguments
+
+     """)
+
+
+for i in sys.argv:
+    if i == "--help" or i == "-h":
+        help()
+        sys.exit(0)
 
 
 class CLIargs(Protocol):
@@ -21,11 +44,12 @@ class CLIargs(Protocol):
 
 
 parser = argparse.ArgumentParser()
-file = str(parser.add_argument("--file", required=True))
-n = parser.add_argument("--top", type=int)
-column_name = parser.add_argument("--column", required=True)
+file = str(parser.add_argument("--file", default="../hourly_prices.csv"))
+n = parser.add_argument("--top", type=int, default=5)
+column_name = parser.add_argument("--column", default="price")
 args: CLIargs = parser.parse_args()  # pyright: ignore
 base_dir = Path("../../")
+
 
 try:
     file_name: str = args.file
@@ -46,7 +70,7 @@ try:
         print("\n")
         print(f"{column} summary")
         print("\n")
-        print("mean: ", df[column].mean())
+        print("mean: ", round(df[column].mean(), 2))
         print("max: ", df[column].max())
         print("min: ", df[column].min())
 except FileNotFoundError:
