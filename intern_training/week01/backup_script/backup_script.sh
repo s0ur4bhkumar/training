@@ -14,22 +14,32 @@ function help ()
 
   USECASE:
     - chmod +x Backup_script.sh
-    - sh Backup_script.sh [projects_folder name]
+    - sh Backup_script.sh [destination_path] [projects_folder path]
     
   OPTIONS:
     --help or -h: show help section
+    --logs : shows the logs
  " 
 }
+
+LogFile='logs/app.log'
 
 if [[ "$1" == '--help' || "$1" == '-h' ]]; then
   help
   exit 0
 fi
 
+if [[ "$1" == '--logs' || "$1" == '-h' ]]; then
+  cat $LogFile
+  exit 0
+fi
+
+
+
 Date=$(date +%F)
-LogFile='logs/app.log'
-dest='archives'
-backup='projects'
+dest="$1"
+backup="$2" 
+
 
 echo "Enter the number of files to be kept"
 
