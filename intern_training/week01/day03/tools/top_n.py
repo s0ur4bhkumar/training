@@ -16,17 +16,3 @@ def top_n(rows: list[dict[str, str]], column: str, n: int) -> list[dict[str, str
         .sort_values(ignore_index=True, ascending=False)
         .head(n)
     )  # pyright: ignore
-
-
-print(
-    top_n(
-        [
-            {"name": "Laptop", "price": "1200.00", "category": "Electronics"},
-            {"name": "Mouse", "price": "25.50", "category": "Electronics"},
-            {"name": "Desk", "price": "300.00", "category": "Furniture"},
-            {"name": "Chair", "price": "150.00", "category": "Furniture"},
-        ],
-        column="price",
-        n=5,
-    )
-)
