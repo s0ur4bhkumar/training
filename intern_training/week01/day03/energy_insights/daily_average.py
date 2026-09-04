@@ -13,11 +13,11 @@ def compute_daily_averages(
                 tmp_dict[value] = i[value_col]
 
     for i, j in tmp_dict.items():
-        year = i.split(" ")[0]
+        year = i[:10]
         result[year].append(float(j))
     result = dict(result)
 
     for key, value in result.items():
-        result[key] = mean(value)
+        result[key] = round(mean(value), 2)
 
     return result

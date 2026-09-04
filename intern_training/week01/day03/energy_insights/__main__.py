@@ -1,25 +1,78 @@
 """
 main file for package
+cli tool for analysing csv files
 """
 
+import argparse
 import sys
+from pathlib import Path
+from typing import Protocol
 
-from energy_insights import csv_stats
+import pandas as pd
+from rich import print
 
-if len(sys.argv) > 1 and sys.argv[1] == "--help":
+from energy_insights.daily_average import compute_daily_averages
+from energy_insights.find_spikes import find_spikes
+
+
+def help():
     print("""
-        a set of csv handling tools
-        """)
+   A cli tool which gives basic stats of a csv file
 
-sample_rows = [
-    {"timestamp": "2026-03-01 08:30:00", "price": "100.50"},
-    {"timestamp": "2026-03-01 14:15:00", "price": "105.00"},
-    {"timestamp": "2026-03-01 18:45:00", "price": "99.00"},
-    {"timestamp": "2026-03-02 09:10:00", "price": "110.25"},
-    {"timestamp": "2026-03-02 16:20:00", "price": "115.75"},
-    {"timestamp": "2026-03-03 11:00:00", "price": "102.00"},
-]
+     Arguments of cli:
+
+     --file: name of the file to be analyzed (not optional)
+     --top: for view only top n files,by default it will return all the rows (type:int, optional)
+     --column: name of the column to be analyzed (not optional)
+
+     use case:
+
+     - python3 tools/csv_stats.py --file="hourly_prices.csv" --column=price --top=5  #default arguments
+
+     """)
 
 
-def csv_summary():
-    print(csv_stats)
+for i in sys.argv:
+    if i == "--help" or i == "-h":
+        help()
+        sys.exit(0)
+
+
+class CLIargs(Protocol):
+    """
+    type interface for cli args
+    """
+
+    file: str
+    top: int
+    column: str
+
+
+parser = argparse.ArgumentParser()
+file = str(parser.add_argument("--file", default="../hourly_prices.csv"))
+n = parser.add_argument("--top", type=int, default=5)
+column_name = parser.add_argument("--column", default="price")
+ts_column = parser.add_argument("--tscolumn", default="timestamp")
+args: CLIargs = parser.parse_args()  # pyright: ignore
+base_dir = Path("../../")
+
+
+try:
+    file_path = ""
+    for path in base_dir.rglob(args.file):
+        file_path = path
+    with open(file_path, encoding="utf-8") as file:
+        df: pd.DataFrame = pd.read_csv(file)
+        df_dict = df.to_dict(orient="records")
+        print(
+            "daily_average_price: ",
+            compute_daily_averages(
+                rows=df_dict, ts_col=args.tscolumn, value_col=args.column
+            ),
+        )
+        print(
+            "spikes_report: ",
+            find_spikes(rows=df_dict, value_col=args.column, top=args.top),
+        )
+except FileNotFoundError:
+    print("invalid file name")
