@@ -11,4 +11,3 @@ def find_spikes(
     df[value_col] = df[value_col].astype(str)
 
     return df.to_dict(orient="records")
-
