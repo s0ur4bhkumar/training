@@ -4,7 +4,6 @@ cli tool for analysing csv files
 """
 
 import argparse
-import os
 import sys
 from pathlib import Path
 from typing import Protocol
@@ -57,10 +56,6 @@ base_dir = Path()
 def main():
     try:
         file_path = args.file
-        # for root, dirs, file in os.walk(args.file):
-        #     print(root)
-        #     print(dirs)
-        # print(file)
         with open(file=rf"{file_path}", encoding="utf-8") as file:
             df: pd.DataFrame = pd.read_csv(file)
             df_dict = df.to_dict(orient="records")
@@ -70,14 +65,17 @@ def main():
                     rows=df_dict, ts_col=args.tscolumn, value_col=args.column
                 ),
             )
+            print("\n")
             print(
-                "spikes_report: ",
+                f"Top {args.top} {args.column} spikes report: ",
                 find_spikes(rows=df_dict, value_col=args.column, top=args.top),
             )
     except FileNotFoundError:
         print("invalid file name")
     except IsADirectoryError:
         print("Is a directory,please provide a correct path of the file")
+    except KeyError:
+        print("enter valid column name")
 
 
 if __name__ == "__main__":
