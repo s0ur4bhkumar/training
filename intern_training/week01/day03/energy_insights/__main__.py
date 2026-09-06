@@ -59,7 +59,6 @@ args: CLIargs = parser.parse_args()  # pyright: ignore
 def main():
     try:
         file_path = args.file
-        print(file_path, os.path.exists(file_path))
         with open(file=rf"{file_path}", encoding="utf-8") as file:
             df: pd.DataFrame = pd.read_csv(file)
             df_dict = df.to_dict(orient="records")

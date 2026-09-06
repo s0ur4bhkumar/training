@@ -11,7 +11,12 @@ A set of tools to handle and perform some basic operations on a dataframe or csv
   - --column: name of the column to be analyzed (not optional)
 
   use case:
-  - put your csv file in the directory: intern_training/data/energy/hourly_prices.csv
+  - add the energy_insight module to you path variable:
+    - fish shell: set -x PYTHONPATH path_to_project/training/intern_training/week01/day03 $PYTHONPATH
+    - zsh: export PYTHONPATH="path_to_project/training/intern_training/week01/day03:$PYTHONPATH"
+    - CMD: set PYTHONPATH=path_to_project\training\intern_training\week01\day03;%PYTHONPATH%
+    - powershell: $env:PYTHONPATH="path_to_project\training\intern_training\week01\day03;" + $env:PYTHONPATH
+    - git bash: export PYTHONPATH="path_to_project/training/intern_training/week03/day03:$PYTHONPATH"
   - python3 tools/csv_stats.py --file="hourly_prices.csv" --column=price --top=4
 
   result:
