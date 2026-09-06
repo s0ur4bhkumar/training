@@ -18,3 +18,7 @@ force-exclude = '''
 
 [tool.basedpyright]
 reportIgnoreCommentWithoutRule = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["test"]

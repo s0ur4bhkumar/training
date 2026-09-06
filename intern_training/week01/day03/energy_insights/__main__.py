@@ -4,6 +4,7 @@ cli tool for analysing csv files
 """
 
 import argparse
+import os
 import sys
 from pathlib import Path
 from typing import Protocol
@@ -45,17 +46,20 @@ class CLIargs(Protocol):
 
 
 parser = argparse.ArgumentParser()
-file = str(parser.add_argument("--file", default="../hourly_prices.csv", type=Path))
+base_dir = Path(__file__).resolve().parent.parent
+file = str(
+    parser.add_argument("--file", default=base_dir / "hourly_prices.csv", type=Path)
+)
 n = parser.add_argument("--top", type=int, default=5)
 column_name = parser.add_argument("--column", default="price")
 ts_column = parser.add_argument("--tscolumn", default="timestamp")
 args: CLIargs = parser.parse_args()  # pyright: ignore
-base_dir = Path()
 
 
 def main():
     try:
         file_path = args.file
+        print(file_path, os.path.exists(file_path))
         with open(file=rf"{file_path}", encoding="utf-8") as file:
             df: pd.DataFrame = pd.read_csv(file)
             df_dict = df.to_dict(orient="records")
