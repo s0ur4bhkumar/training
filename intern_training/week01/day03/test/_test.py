@@ -2,6 +2,9 @@
 Testing module
 """
 
+import subprocess
+import sys
+
 from energy_insights.daily_average import compute_daily_averages
 from energy_insights.find_spikes import find_spikes
 
@@ -35,7 +38,55 @@ def test_find_spike():
     ]
 
 
-def test_main():
+def test_main_invalid_file_name():
     """
-    test for main cli application
+    test for main cli application for invalid file name
     """
+
+    result = subprocess.run(
+        [sys.executable, "-m", "energy_insights", "--file", "/Downloads/score.csv"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    assert "invalid file name" in result.stdout
+
+
+def test_main_invalid_column_name():
+    """
+    test for main cli application for invalid file name
+    """
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "energy_insights",
+            "--file",
+            "../day03/hourly_prices.csv",
+            "--top",
+            "5",
+            "--column",
+            "value",
+            "--tscolumn",
+            "timestamp",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    assert "enter valid column name" in result.stdout
+
+
+def test_main_invalid_file_path():
+    """
+    test for main cli application for invalid file name
+    """
+
+    result = subprocess.run(
+        [sys.executable, "-m", "energy_insights", "--file", "../"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    assert "Is a directory,please provide a correct path of the file" in result.stdout

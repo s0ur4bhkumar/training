@@ -12,6 +12,7 @@ from typing import Protocol
 import pandas as pd
 from rich import print
 
+from energy_insights.anamoly_detection import anamoly_detection
 from energy_insights.daily_average import compute_daily_averages
 from energy_insights.find_spikes import find_spikes
 
@@ -25,6 +26,7 @@ for i in sys.argv:
              --file: name of the file to be analyzed (not optional)
              --top: for view only top n files,by default it will return all the rows (type:int, optional)
              --column: name of the column to be analyzed (not optional)
+             --tscolum: name of the time series column
 
              use case:
 
@@ -56,29 +58,45 @@ ts_column = parser.add_argument("--tscolumn", default="timestamp")
 args: CLIargs = parser.parse_args()  # pyright: ignore
 
 
-def main():
+def main(
+    file_path: str = args.file,
+    column: str = args.column,
+    top: int = args.top,
+    ts_column: str = args.tscolumn,
+):
     try:
-        file_path = args.file
         with open(file=rf"{file_path}", encoding="utf-8") as file:
             df: pd.DataFrame = pd.read_csv(file)
             df_dict = df.to_dict(orient="records")
             print(
-                f"daily_average_{args.column}: ",
+                f"daily_average_{column}: ",
                 compute_daily_averages(
-                    rows=df_dict, ts_col=args.tscolumn, value_col=args.column
+                    rows=df_dict, ts_col=ts_column, value_col=column
                 ),
             )
             print("\n")
             print(
-                f"Top {args.top} {args.column} spikes report: ",
-                find_spikes(rows=df_dict, value_col=args.column, top=args.top),
+                f"Top {top} {column} spikes report: ",
+                find_spikes(rows=df_dict, value_col=column, top=top),
             )
+            if anamoly := anamoly_detection(
+                rows=df_dict, value_col=column, ts_col=ts_column
+            ):
+                print("anamoly detected: ", anamoly[0])
+                print("\n")
+                print(anamoly[1])
+            else:
+                print("anamoly detected: ", False)
+
     except FileNotFoundError:
         print("invalid file name")
+        return "invalid file name"
     except IsADirectoryError:
         print("Is a directory,please provide a correct path of the file")
+        return "Is a directory,please provide a correct path of the file"
     except KeyError:
         print("enter valid column name")
+        return "enter valid column name"
 
 
 if __name__ == "__main__":
