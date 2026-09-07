@@ -12,6 +12,11 @@ import pandas as pd
 from rich import print
 
 from energy_insights.anamoly_detection import anamoly_detection
+from energy_insights.boundary_conditions import (
+    single_item,
+    special_characters,
+    very_long_string,
+)
 from energy_insights.daily_average import compute_daily_averages
 from energy_insights.find_spikes import find_spikes
 from energy_insights.malformed_data_check import malformed_check
@@ -31,6 +36,12 @@ for i in sys.argv:
              use case:
 
              - python3 tools/csv_stats.py --file="hourly_prices.csv" --column=price --top=5  #default arguments
+
+             Note:
+                 Avoid usign data containing:
+                    - very long column name
+                    - only one row
+                    - column names having special characters
 
              """)
 
@@ -53,6 +64,26 @@ class Malformed_data(Exception):
     """
 
     pass
+
+
+class boundary_conditions(Exception):
+    """
+    custom exception for boundary conditions
+        - very long column names
+        - single row dataset
+        - column names containing special characters
+    """
+
+    pass
+
+
+def boundary_case_checks(rows: list[dict[str, str]], valuecol: str, ts_col: str):
+    if single_item(rows):
+        raise (boundary_conditions("The dataset has a single row"))
+    elif special_characters(value_col=valuecol, tscol=ts_col):
+        raise (boundary_conditions("The column name contains special characters"))
+    elif very_long_string(value_col=valuecol, tscol=ts_col):
+        raise (boundary_conditions("too long column name"))
 
 
 def data_analysis(file: str, val_col: str, tscol: str):
@@ -83,8 +114,9 @@ def main(
     try:
         with open(file=rf"{file_path}", encoding="utf-8") as f:
             df: pd.DataFrame = pd.read_csv(f)
-            df_dict = df.to_dict(orient="records")
+            df_dict: list[dict[str, str]] = df.to_dict(orient="records")
             data_analysis(file=file_path, val_col=column, tscol=tscolumn)
+            boundary_case_checks(valuecol=column, ts_col=tscolumn, rows=df_dict)
     except IsADirectoryError:
         print("Is a directory,please provide a correct path of the file")
     except FileNotFoundError:
@@ -93,6 +125,8 @@ def main(
         print(e)
     except KeyError:
         print("enter valid column name")
+    except boundary_case_checks as e:
+        print(e)
     else:
         print(
             f"daily_average_{column}: ",
