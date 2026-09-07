@@ -47,6 +47,7 @@ def test_main_invalid_file_name():
         [sys.executable, "-m", "energy_insights", "--file", "/Downloads/score.csv"],
         capture_output=True,
         text=True,
+        check=True,
     )
     assert result.returncode == 0
     assert "invalid file name" in result.stdout
@@ -73,6 +74,7 @@ def test_main_invalid_column_name():
         ],
         capture_output=True,
         text=True,
+        check=True,
     )
     assert result.returncode == 0
     assert "enter valid column name" in result.stdout
@@ -87,6 +89,7 @@ def test_main_invalid_file_path():
         [sys.executable, "-m", "energy_insights", "--file", "../"],
         capture_output=True,
         text=True,
+        check=True,
     )
     assert result.returncode == 0
     assert "Is a directory,please provide a correct path of the file" in result.stdout

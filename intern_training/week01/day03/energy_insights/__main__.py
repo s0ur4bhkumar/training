@@ -4,7 +4,6 @@ cli tool for analysing csv files
 """
 
 import argparse
-import os
 import sys
 from pathlib import Path
 from typing import Protocol
@@ -46,10 +45,9 @@ class CLIargs(Protocol):
     top: int
     column: str
 
-
 parser = argparse.ArgumentParser()
 base_dir = Path(__file__).resolve().parent.parent
-file = str(
+fileName = str(
     parser.add_argument("--file", default=base_dir / "hourly_prices.csv", type=Path)
 )
 n = parser.add_argument("--top", type=int, default=5)
@@ -62,17 +60,18 @@ def main(
     file_path: str = args.file,
     column: str = args.column,
     top: int = args.top,
-    ts_column: str = args.tscolumn,
+    tscolumn: str = args.tscolumn,
 ):
+    """
+    main function for cli
+    """
     try:
-        with open(file=rf"{file_path}", encoding="utf-8") as file:
-            df: pd.DataFrame = pd.read_csv(file)
+        with open(file=rf"{file_path}", encoding="utf-8") as f:
+            df: pd.DataFrame = pd.read_csv(f)
             df_dict = df.to_dict(orient="records")
             print(
                 f"daily_average_{column}: ",
-                compute_daily_averages(
-                    rows=df_dict, ts_col=ts_column, value_col=column
-                ),
+                compute_daily_averages(rows=df_dict, ts_col=tscolumn, value_col=column),
             )
             print("\n")
             print(
@@ -80,7 +79,8 @@ def main(
                 find_spikes(rows=df_dict, value_col=column, top=top),
             )
             if anamoly := anamoly_detection(
-                rows=df_dict, value_col=column, ts_col=ts_column
+                rows=df_dict,
+                value_col=column,
             ):
                 print("anamoly detected: ", anamoly[0])
                 print("\n")
@@ -90,13 +90,10 @@ def main(
 
     except FileNotFoundError:
         print("invalid file name")
-        return "invalid file name"
     except IsADirectoryError:
         print("Is a directory,please provide a correct path of the file")
-        return "Is a directory,please provide a correct path of the file"
     except KeyError:
         print("enter valid column name")
-        return "enter valid column name"
 
 
 if __name__ == "__main__":
