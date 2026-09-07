@@ -14,6 +14,7 @@ from rich import print
 from energy_insights.anamoly_detection import anamoly_detection
 from energy_insights.daily_average import compute_daily_averages
 from energy_insights.find_spikes import find_spikes
+from energy_insights.malformed_data_check import malformed_check
 
 for i in sys.argv:
     if i in ("--help", "-h"):
@@ -45,6 +46,20 @@ class CLIargs(Protocol):
     top: int
     column: str
 
+
+class Malformed_data(Exception):
+    """
+    custom exception for malformed data
+    """
+
+    pass
+
+
+def data_analysis(file: str, val_col: str, tscol: str):
+    if malformed_check(file_path=file, value_col=val_col, ts_col=tscol):
+        raise Malformed_data("Bad data, please clean the data")
+
+
 parser = argparse.ArgumentParser()
 base_dir = Path(__file__).resolve().parent.parent
 fileName = str(
@@ -69,31 +84,34 @@ def main(
         with open(file=rf"{file_path}", encoding="utf-8") as f:
             df: pd.DataFrame = pd.read_csv(f)
             df_dict = df.to_dict(orient="records")
-            print(
-                f"daily_average_{column}: ",
-                compute_daily_averages(rows=df_dict, ts_col=tscolumn, value_col=column),
-            )
-            print("\n")
-            print(
-                f"Top {top} {column} spikes report: ",
-                find_spikes(rows=df_dict, value_col=column, top=top),
-            )
-            if anamoly := anamoly_detection(
-                rows=df_dict,
-                value_col=column,
-            ):
-                print("anamoly detected: ", anamoly[0])
-                print("\n")
-                print(anamoly[1])
-            else:
-                print("anamoly detected: ", False)
-
-    except FileNotFoundError:
-        print("invalid file name")
+            data_analysis(file=file_path, val_col=column, tscol=tscolumn)
     except IsADirectoryError:
         print("Is a directory,please provide a correct path of the file")
+    except FileNotFoundError:
+        print("invalid file name")
+    except Malformed_data as e:
+        print(e)
     except KeyError:
         print("enter valid column name")
+    else:
+        print(
+            f"daily_average_{column}: ",
+            compute_daily_averages(rows=df_dict, ts_col=tscolumn, value_col=column),
+        )
+        print("\n")
+        print(
+            f"Top {top} {column} spikes report: ",
+            find_spikes(rows=df_dict, value_col=column, top=top),
+        )
+        if anamoly := anamoly_detection(
+            rows=df_dict,
+            value_col=column,
+        ):
+            print("anamoly detected: ", anamoly[0])
+            print("\n")
+            print(anamoly[1])
+        else:
+            print("anamoly detected: ", False)
 
 
 if __name__ == "__main__":

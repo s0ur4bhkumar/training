@@ -93,3 +93,29 @@ def test_main_invalid_file_path():
     )
     assert result.returncode == 0
     assert "Is a directory,please provide a correct path of the file" in result.stdout
+
+
+def test_malformed_data():
+    """
+    test for malformed data
+    """
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "energy_insights",
+            "--file",
+            "./malformed_temperature_dataset.csv",
+            "--top",
+            "5",
+            "--column",
+            "temperature",
+            "--tscolumn",
+            "timestamp",
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert result.returncode == 0
+    assert "Bad data, please clean the data" in result.stdout
