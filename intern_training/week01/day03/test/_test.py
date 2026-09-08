@@ -64,7 +64,7 @@ def test_main_invalid_column_name():
             "-m",
             "energy_insights",
             "--file",
-            "../day03/hourly_prices.csv",
+            "test/test_databases/hourly_prices.csv",
             "--top",
             "5",
             "--column",
@@ -105,7 +105,8 @@ def test_malformed_data():
             "-m",
             "energy_insights",
             "--file",
-            "./malformed_temperature_dataset.csv",
+            # "test_databases/malformed_temperature_dataset.csv",
+            "test/test_databases/malformed_temperature_dataset.csv",
             "--top",
             "5",
             "--column",
@@ -119,3 +120,94 @@ def test_malformed_data():
     )
     assert result.returncode == 0
     assert "Bad data, please clean the data" in result.stdout
+
+
+def test_boudary_error_single_row():
+    """
+    test for single row
+    """
+    try:
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "enerry_insights",
+                "--file",
+                "test/test_databases/malformed_single_row_dataset.csv",
+                "--top",
+                "5",
+                "--column",
+                "temperature",
+                "--tscolumn",
+                "timestamp",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except subprocess.CalledProcessError as e:
+        print(e.output)
+    else:
+        assert result.returncode == 0
+        assert "The dataset has a single row" in result.stdout
+
+
+def test_boundary_error_long_name():
+    """
+    test for very long column name
+    """
+    try:
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "enerry_insights",
+                "--file",
+                "test/test_databases/malformed_long_header_dataset.csv",
+                "--top",
+                "5",
+                "--column",
+                "temperature",
+                "--tscolumn",
+                "timestamp",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except subprocess.CalledProcessError as e:
+        print(e.output)
+    else:
+        assert result.returncode == 0
+        assert "too long column name" in result.stdout
+
+
+def test_boundary_error_special_char():
+    """
+    test for special char in column names
+    """
+
+    try:
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "enerry_insights",
+                "--file",
+                "test/test_databases/special_char_headers_dataset.csv",
+                "--top",
+                "5",
+                "--column",
+                "temperature",
+                "--tscolumn",
+                "timestamp",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except subprocess.CalledProcessError as e:
+        print(e.output)
+    else:
+        assert result.returncode == 0
+        assert "The column name contains special characters" in result.stdout

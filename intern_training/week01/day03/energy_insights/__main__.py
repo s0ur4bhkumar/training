@@ -11,15 +11,15 @@ from typing import Protocol
 import pandas as pd
 from rich import print
 
-from energy_insights.anamoly_detection import anamoly_detection
-from energy_insights.boundary_conditions import (
-    single_item,
-    special_characters,
-    very_long_string,
+from custom_exceptions.anamoly_detection import anamoly_detection
+from custom_exceptions.exceptions import (
+    Malformed_data,
+    boundary_case_checks,
+    data_analysis,
 )
+from custom_exceptions.malformed_data_check import malformed_check
 from energy_insights.daily_average import compute_daily_averages
 from energy_insights.find_spikes import find_spikes
-from energy_insights.malformed_data_check import malformed_check
 
 for i in sys.argv:
     if i in ("--help", "-h"):
@@ -58,43 +58,12 @@ class CLIargs(Protocol):
     column: str
 
 
-class Malformed_data(Exception):
-    """
-    custom exception for malformed data
-    """
-
-    pass
-
-
-class boundary_conditions(Exception):
-    """
-    custom exception for boundary conditions
-        - very long column names
-        - single row dataset
-        - column names containing special characters
-    """
-
-    pass
-
-
-def boundary_case_checks(rows: list[dict[str, str]], valuecol: str, ts_col: str):
-    if single_item(rows):
-        raise (boundary_conditions("The dataset has a single row"))
-    elif special_characters(value_col=valuecol, tscol=ts_col):
-        raise (boundary_conditions("The column name contains special characters"))
-    elif very_long_string(value_col=valuecol, tscol=ts_col):
-        raise (boundary_conditions("too long column name"))
-
-
-def data_analysis(file: str, val_col: str, tscol: str):
-    if malformed_check(file_path=file, value_col=val_col, ts_col=tscol):
-        raise Malformed_data("Bad data, please clean the data")
-
-
 parser = argparse.ArgumentParser()
 base_dir = Path(__file__).resolve().parent.parent
 fileName = str(
-    parser.add_argument("--file", default=base_dir / "hourly_prices.csv", type=Path)
+    parser.add_argument(
+        "--file", default="test/test_databases/hourly_prices.csv", type=Path
+    )
 )
 n = parser.add_argument("--top", type=int, default=5)
 column_name = parser.add_argument("--column", default="price")
@@ -115,8 +84,8 @@ def main(
         with open(file=rf"{file_path}", encoding="utf-8") as f:
             df: pd.DataFrame = pd.read_csv(f)
             df_dict: list[dict[str, str]] = df.to_dict(orient="records")
-            data_analysis(file=file_path, val_col=column, tscol=tscolumn)
             boundary_case_checks(valuecol=column, ts_col=tscolumn, rows=df_dict)
+            data_analysis(file=file_path, val_col=column, tscol=tscolumn)
     except IsADirectoryError:
         print("Is a directory,please provide a correct path of the file")
     except FileNotFoundError:
@@ -126,6 +95,8 @@ def main(
     except KeyError:
         print("enter valid column name")
     except boundary_case_checks as e:
+        print(e)
+    except data_analysis as e:
         print(e)
     else:
         print(
