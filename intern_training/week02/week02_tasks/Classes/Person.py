@@ -1,3 +1,8 @@
+"""
+Person class
+"""
+
+
 class Person:
     """Represent a person with name and age."""
 

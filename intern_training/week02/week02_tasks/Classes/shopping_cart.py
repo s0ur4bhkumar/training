@@ -1,10 +1,16 @@
+"""
+shopping cart class
+"""
+
 from dataclasses import dataclass
-from datetime import date
-from typing import Literal
 
 
 @dataclass
 class Product:
+    """
+    data class for products
+    """
+
     name: str
     price: float
 
@@ -20,6 +26,9 @@ class ShoppingCart:
         self._items: dict[str, tuple[Product, int]] = {}  # name -> (product, quantity)
 
     def add_item(self, product: Product, quantity: int = 1) -> None:
+        """
+        method to add products to list
+        """
         self._items[str(product.name)] = (product, quantity)
 
     def remove_item(self, product_name: str) -> None:

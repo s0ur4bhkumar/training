@@ -1,4 +1,8 @@
-from Task import Task, UrgentTask
+"""
+task manager class
+"""
+
+from .Task import Task, UrgentTask
 
 
 class TaskManager:
