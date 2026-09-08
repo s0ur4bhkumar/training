@@ -2,7 +2,7 @@
 task manager class
 """
 
-from .Task import Task, UrgentTask
+from data_class import Task, UrgentTask
 
 
 class TaskManager:
@@ -18,17 +18,17 @@ class TaskManager:
 
     def get_incomplete_tasks(self) -> list[Task]:
         """Return all incomplete tasks."""
-        return list(filter(lambda x: not x.completed, self.tasks))
+        return list(filter(lambda x: x.status != "done", self.tasks))
 
     def get_completed_tasks(self) -> list[Task]:
         """Return all completed tasks."""
-        return list(filter(lambda x: x.completed, self.tasks))
+        return list(filter(lambda x: x.status == "done", self.tasks))
 
     def mark_task_complete(self, title: str) -> bool:
         """Find task by title and mark complete. Return True if found."""
         for task in self.tasks:
             if task.title == title:
-                _ = task.mark_complete
+                task.status = "done"
                 return True
         return False
 

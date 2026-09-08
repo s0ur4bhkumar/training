@@ -38,6 +38,10 @@ class Task:
         self.status = new_status
 
 
+@dataclass
+class UrgentTask(Task):
+    deadline: str = ''
+
 if __name__ == "__main__":
     task = Task("Write tests", "Unit tests for utils")
     task.transition_to("in_progress")
