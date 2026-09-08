@@ -40,6 +40,10 @@ class TaskManager:
 if __name__ == "__main__":
     manager = TaskManager()
     manager.add_task(Task("Buy milk", "Get 2 liters"))
-    manager.add_task(UrgentTask("Submit report", "Q4 report", "2024-12-31"))
+    manager.add_task(
+        UrgentTask(
+            "Submit report", "Q4 report", due_date="2026-10-04", deadline="2026-11-01"
+        )
+    )
     print(len(manager))  # 2
     print(manager.get_incomplete_tasks())

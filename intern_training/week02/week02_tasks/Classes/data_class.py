@@ -3,7 +3,7 @@ dataClass demonstration
 """
 
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from typing import Literal
 
 
@@ -14,14 +14,22 @@ class Task:
     title: str
     description: str
     status: Literal["todo", "in_progress", "done"] = "todo"
-    due_date: date | None = None
+    due_date: str | None = None
 
     def __post_init__(self):
         """Validate after initialization."""
         if not self.title or not self.title.strip():
             raise ValueError("Title cannot be empty")
 
-        if self.due_date and self.due_date < date.today():
+        if (
+            self.due_date
+            and date(
+                int(self.due_date.split("-")[0]),
+                int(self.due_date.split("-")[1]),
+                int(self.due_date.split("-")[2]),
+            )
+            < date.today()
+        ):
             raise ValueError("Due date cannot be in the past")
 
     def transition_to(self, new_status: Literal["todo", "in_progress", "done"]) -> None:
