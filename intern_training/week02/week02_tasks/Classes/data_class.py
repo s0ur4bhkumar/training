@@ -40,7 +40,12 @@ class Task:
 
 @dataclass
 class UrgentTask(Task):
-    deadline: str = ''
+    """
+    data class for urgent tasks
+    """
+
+    deadline: str = ""
+
 
 if __name__ == "__main__":
     task = Task("Write tests", "Unit tests for utils")
