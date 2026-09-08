@@ -18,8 +18,8 @@ from custom_exceptions.exceptions import (
     data_analysis,
 )
 from custom_exceptions.malformed_data_check import malformed_check
-from energy_insights.daily_average import compute_daily_averages
-from energy_insights.find_spikes import find_spikes
+from features.daily_average import compute_daily_averages
+from features.find_spikes import find_spikes
 
 for i in sys.argv:
     if i in ("--help", "-h"):

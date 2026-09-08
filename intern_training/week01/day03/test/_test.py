@@ -5,8 +5,8 @@ Testing module
 import subprocess
 import sys
 
-from energy_insights.daily_average import compute_daily_averages
-from energy_insights.find_spikes import find_spikes
+from features.daily_average import compute_daily_averages
+from features.find_spikes import find_spikes
 
 sample_rows = [
     {"timestamp": "2026-03-01 08:30:00", "price": "100.50"},

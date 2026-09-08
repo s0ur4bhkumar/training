@@ -16,10 +16,3 @@ def malformed_check(file_path: str, value_col: str, ts_col: str):
             return True
 
 
-# print(
-#     malformed_check(
-#         file_path="./malformed_temperature_dataset.csv",
-#         value_col="temperature",
-#         ts_col="timestamp",
-#     )
-# )
