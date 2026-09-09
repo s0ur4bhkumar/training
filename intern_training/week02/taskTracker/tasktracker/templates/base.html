@@ -11,13 +11,14 @@
 <body>
     <header>
         <nav>
-            <a href="/">Home</a>
-            <a href="/tasks">tasks</a>
+            <a href={% url 'tasks:details' %}>Home</a>
+            <a href={% url 'tasks:about' %}>about</a>
         </nav>
     </header>
     <main>
         {% block content%}
         {% endblock %}
     </main>
+    <footer>&copy Demo 2026</footer>
 </body>
 </html>

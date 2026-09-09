@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block extra_css %}
 <link rel="stylesheet" href='{% static 'tasks/style.css' %}'>
+{% endblock %}
 
 {% block content%}
+<div class='task_list'>
     {% for i in tasks  %}
-        <ul>
-            <li>{{i}}}</li>
-        </ul>
-
+        <div class='task'>{{i}}</div>
     {% endfor %}
+</div>
 
 {% endblock %}
