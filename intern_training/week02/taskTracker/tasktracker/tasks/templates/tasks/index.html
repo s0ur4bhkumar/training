@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-</head>
-<body>
-<h1>Hello world</h1>
-{% for i in tasks %}
-    <ul>
-        <li>
-            <h1>{{i}}</h1>
-        </li>
-    </ul>
-{%endfor%}
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href='{% static 'tasks/style.css' %}'>
+
+{% block content%}
+    {% for i in tasks  %}
+        <ul>
+            <li>{{i}}}</li>
+        </ul>
+
+    {% endfor %}
+
+{% endblock %}
