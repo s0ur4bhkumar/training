@@ -13,7 +13,7 @@ class Task(models.Model):
     status = models.CharField(max_length=100, default="Todo")
     due_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
-    updataed_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @override
     def __str__(self):
