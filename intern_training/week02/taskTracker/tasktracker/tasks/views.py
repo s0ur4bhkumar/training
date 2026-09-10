@@ -8,4 +8,4 @@ def details(request):
 
 
 def about(request):
-    return HttpResponse("This is about section")
+    return render(request, "tasks/about.html")

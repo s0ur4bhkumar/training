@@ -1,8 +1,7 @@
 .task {
     background: linear-gradient(to bottom, purple, blue);
-    height: 100px;
-    width: 100px;
     border-radius: 1rem;
+    padding: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,4 +12,8 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr 1fr;
     gap: 3rem;
+}
+
+p {
+    color: blue;
 }

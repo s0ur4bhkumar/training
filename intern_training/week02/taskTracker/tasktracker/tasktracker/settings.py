@@ -20,7 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^+$=xny)m=r9!rjmt5qfzpk21$t5)klpjwbftm*___l_m^#80!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_browser_reload",
-    "tasks",
+    "tasks.apps.TasksConfig",
 ]
 
 MIDDLEWARE = [
@@ -70,6 +69,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "tasktracker.wsgi.application"
+
+SECRET_KEY = "local_development_server"
 
 
 # Database
@@ -107,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
