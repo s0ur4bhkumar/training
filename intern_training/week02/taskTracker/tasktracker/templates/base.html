@@ -11,12 +11,15 @@
 <body>
     <header>
         <nav>
-            <a href={% url 'tasks:details' %}>Home</a>
-            <a href={% url 'tasks:about' %}>about</a>
+            <a href={% url 'tasks:Home' %}>Home</a>
+            <a href={% url 'tasks:tasks_list' %}>Task list</a>
+            <a href={% url 'tasks:create_task'%}>Add task</a>
+            <a href={% url 'tasks:about' %}>About</a>
         </nav>
     </header>
     <main>
         {% block content%}
+            hello
         {% endblock %}
     </main>
     <footer>&copy Demo 2026</footer>

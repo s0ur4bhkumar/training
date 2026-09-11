@@ -6,7 +6,7 @@ from django.db import models
 
 class Task(models.Model):
     class Meta:
-        get_latest_by = "created_at"
+        get_latest_by = "-created_at"
 
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=200)

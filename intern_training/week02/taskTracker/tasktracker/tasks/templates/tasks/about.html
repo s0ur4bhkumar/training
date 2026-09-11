@@ -4,4 +4,9 @@
 <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
 {% endblock %}
 
-<p class='about_p'>This is about page</p>
+{% block content %}
+    <div>Click task_list to get all tasks</div>
+    <div>Click add task to add a task</div>
+    <div>Click edit button to update a task</div>
+    <div>Click delete to delete a task</div>
+{% endblock %}
