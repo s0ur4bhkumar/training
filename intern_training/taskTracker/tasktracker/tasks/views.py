@@ -16,11 +16,14 @@ def tasks_list(request):
     task_list = Task.objects.all()
     title = request.GET.get("title", "")
     due_date = request.GET.get("due_date", "")
+    owner = request.user
 
     if title:
         task_list = task_list.filter(title__icontains=title)
     if due_date:
         task_list = task_list.filter(due_date=due_date)
+    if owner:
+        task_list = task_list.filter(owner=owner)
 
     paginator = Paginator(task_list, 5)
 

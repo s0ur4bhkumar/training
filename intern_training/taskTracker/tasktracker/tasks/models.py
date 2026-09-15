@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import override
 
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -14,6 +15,9 @@ class Task(models.Model):
     due_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="tasks", default=1
+    )
 
     @override
     def __str__(self):
