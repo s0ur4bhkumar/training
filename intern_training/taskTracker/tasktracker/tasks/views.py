@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core import paginator
 from django.core.paginator import PageNotAnInteger, Paginator
 from django.http import HttpResponse
@@ -12,6 +13,7 @@ def Home(request):
     return render(request, "tasks/Home.html")
 
 
+@login_required
 def tasks_list(request):
     task_list = Task.objects.all()
     title = request.GET.get("title", "")
@@ -24,6 +26,8 @@ def tasks_list(request):
         task_list = task_list.filter(due_date=due_date)
     if owner:
         task_list = task_list.filter(owner=owner)
+    if owner.is_superuser:
+        task_list = Task.objects.all()
 
     paginator = Paginator(task_list, 5)
 
@@ -43,6 +47,7 @@ def task_detail(request, pk):
     return render(request, "tasks/task_details.html", context={"task": task})
 
 
+@login_required
 def task_create(request):
     if request.method == "POST":
         form = TaskForm(request.POST)

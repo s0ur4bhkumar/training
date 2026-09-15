@@ -113,6 +113,8 @@ input {
 .delete_info {
     background-color: lightyellow;
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .welcome {
