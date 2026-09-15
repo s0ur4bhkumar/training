@@ -29,4 +29,5 @@ urlpatterns = [
     path("task_update", include("tasks.urls")),
     path("task_delete", include("tasks.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("register/", include("tasks.urls")),
 ]

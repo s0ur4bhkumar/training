@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    <form method='post' action=''>
+    <form method='post' action='' class='registration form'>
         {%csrf_token %}
-        {{ form.as_p }}
+        {{ form }}
         <div class = 'action_buttons'>
             <button type = 'submit'>submit</button>
             <a href="{% url 'tasks:tasks_list' %}">cancel</a>

@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic.edit import DeleteView
 
-from .forms import TaskForm
+from .forms import RegistrationForm, TaskForm
 from .models import Task
 
 
@@ -47,6 +47,8 @@ def task_create(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid:
+            task = form.save(commit=False)
+            task.owner = request.user
             form.save()
             return redirect("/tasks_lists")
     else:
@@ -73,6 +75,17 @@ def task_delete(request, pk):
         return redirect("/tasks_lists")
 
     return render(request, "tasks/confirmation.html", {"task": task})
+
+
+def register(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+        else:
+            print("errors: ", form.errors)
+    return render(request, "tasks/register.html", {"form": RegistrationForm()})
 
 
 def about(request):

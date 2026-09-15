@@ -98,6 +98,18 @@ input {
     font-size: 1.7rem;
 }
 
+.action_buttons > button,
+.register_form > button {
+    width: 20%;
+}
+
+.action_buttons {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    justify-content: center;
+}
+
 .delete_info {
     background-color: lightyellow;
     padding: 2rem;
@@ -117,4 +129,17 @@ input {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+
+.helptext {
+    display: None;
+}
+
+label {
+    width: 250px;
+    display: block;
+}
+
+form > div {
+    display: flex;
 }
