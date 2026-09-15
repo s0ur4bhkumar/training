@@ -15,6 +15,14 @@
             <a href={% url 'tasks:tasks_list' %}>Task list</a>
             <a href={% url 'tasks:create_task'%}>Add task</a>
             <a href={% url 'tasks:about' %}>About</a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method='post'>
+                    {% csrf_token %}
+                    <button type='submit' id='logout_button'>Logout</button>
+                </form>
+            {%else%}
+                <a href="{% url 'login' %}">login</a>
+            {% endif %}
         </nav>
     </header>
     <main>

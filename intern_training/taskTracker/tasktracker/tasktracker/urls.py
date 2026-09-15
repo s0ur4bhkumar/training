@@ -20,7 +20,7 @@ from django.shortcuts import render
 from django.urls import include, path
 
 urlpatterns = [
-    path("admin/", admin.site.urls,name='admin'),
+    path("admin/", admin.site.urls, name="admin"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("tasks/", include("tasks.urls")),
     path("", include("tasks.urls")),
@@ -28,4 +28,5 @@ urlpatterns = [
     path("task_create", include("tasks.urls")),
     path("task_update", include("tasks.urls")),
     path("task_delete", include("tasks.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
