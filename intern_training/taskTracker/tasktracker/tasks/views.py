@@ -51,14 +51,14 @@ def task_detail(request, pk):
 def task_create(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             task = form.save(commit=False)
             task.owner = request.user
             form.save()
             return redirect("/tasks_lists")
     else:
-        form = TaskForm
-    return render(request, "tasks/form.html", context={"form": form})
+        form = TaskForm()
+    return render(request, "tasks/task_form.html", context={"form": form})
 
 
 def task_update(request, pk):
@@ -70,7 +70,7 @@ def task_update(request, pk):
             return redirect("/tasks_lists")
     else:
         form = TaskForm(instance=task)
-    return render(request, "tasks/form.html", context={"form": form})
+    return render(request, "tasks/task_form.html", context={"form": form})
 
 
 def task_delete(request, pk):
@@ -88,9 +88,9 @@ def register(request):
         if form.is_valid():
             form.save()
             return redirect("login")
-        else:
-            print("errors: ", form.errors)
-    return render(request, "tasks/register.html", {"form": RegistrationForm()})
+    else:
+        form = RegistrationForm()
+    return render(request, "tasks/register.html", {"form": form})
 
 
 def about(request):

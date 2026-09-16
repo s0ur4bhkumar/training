@@ -145,3 +145,23 @@ label {
 form > div {
     display: flex;
 }
+
+.error_display {
+    display: flex;
+    gap: 1rem;
+    border: 1px solid red;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.errorlist {
+    list-style: none;
+}
+
+input::placeholder {
+    font-size: 1rem;
+}
+
+.task.form {
+    font-size: 2rem;
+}

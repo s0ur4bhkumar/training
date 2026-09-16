@@ -9,7 +9,7 @@ class Task(models.Model):
     class Meta:
         get_latest_by = "-created_at"
 
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=200)
     status = models.CharField(max_length=100, default="Todo")
     due_date = models.DateField()
