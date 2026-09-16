@@ -46,7 +46,7 @@ class TaskForm(forms.ModelForm):
 
         if status.lower() not in ["todo", "done", "pending"]:
             raise ValidationError(
-                'invalid status value, status should be in ["todo","done"]'
+                'invalid status value, status should be in ["todo","done","pending"]'
             )
         return status
 

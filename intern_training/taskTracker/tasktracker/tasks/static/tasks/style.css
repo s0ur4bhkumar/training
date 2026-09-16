@@ -152,10 +152,18 @@ form > div {
     border: 1px solid red;
     padding: 1rem;
     border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    width: 70vw;
 }
 
-.errorlist {
+.error_display > p {
+    color: rebeccapurple;
+}
+
+.errorlist > * {
     list-style: none;
+    color: lightcoral;
 }
 
 input::placeholder {
@@ -164,4 +172,45 @@ input::placeholder {
 
 .task.form {
     font-size: 2rem;
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    50% {
+        opacity: 1;
+        visibility: visible;
+    }
+    90% {
+        opacity: 0;
+        visibility: hidden;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.success.messages {
+    animation: fadeout 3s forwards;
+    border: 2px solid skyblue;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.success.messages > p {
+    color: springgreen;
+    font-size: 1rem;
+}
+
+.error.messages {
+    border: 2px solid orangered;
+    border-radius: 12px;
+    padding: 1rem;
+}
+.error.messages > p {
+    color: lightsalmon;
+    font-size: 1.75rem;
 }

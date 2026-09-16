@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core import paginator
 from django.core.paginator import PageNotAnInteger, Paginator
@@ -55,7 +56,12 @@ def task_create(request):
             task = form.save(commit=False)
             task.owner = request.user
             form.save()
+            messages.success(request, "task created successfully")
             return redirect("/tasks_lists")
+        else:
+            messages.error(
+                request, "There was an error creating task, see below for more info"
+            )
     else:
         form = TaskForm()
     return render(request, "tasks/task_form.html", context={"form": form})
@@ -67,7 +73,13 @@ def task_update(request, pk):
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
+            messages.success(request, f'task "{task.title}" was successfully updated')
             return redirect("/tasks_lists")
+        else:
+            messages.error(
+                request,
+                f'"{task.title}" task update failed, see below for more information',
+            )
     else:
         form = TaskForm(instance=task)
     return render(request, "tasks/task_form.html", context={"form": form})
@@ -77,6 +89,7 @@ def task_delete(request, pk):
     task = Task.objects.get(pk=pk)
     if request.method == "POST":
         task.delete()
+        messages.success(request, f'"{task}" deleted successfully')
         return redirect("/tasks_lists")
 
     return render(request, "tasks/confirmation.html", {"task": task})
