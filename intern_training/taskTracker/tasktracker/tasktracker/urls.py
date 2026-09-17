@@ -30,4 +30,8 @@ urlpatterns = [
     path("task_delete", include("tasks.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path("register/", include("tasks.urls")),
+    path(route="api/taskslist", view=include(arg="tasks.urls")),
+    path(route="api/taksdetail", view=include(arg="tasks.urls")),
+    path(route="users/", view=include("tasks.urls")),
+    path(route="api/auth-", view=include("rest_framework.urls")),
 ]

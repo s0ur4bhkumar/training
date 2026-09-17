@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_browser_reload",
     "tasks.apps.TasksConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

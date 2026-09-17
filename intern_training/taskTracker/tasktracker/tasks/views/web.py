@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic.edit import DeleteView
 
-from .forms import RegistrationForm, TaskForm
-from .models import Task
+from ..forms import RegistrationForm, TaskForm
+from ..models import Task
 
 
 def Home(request):
