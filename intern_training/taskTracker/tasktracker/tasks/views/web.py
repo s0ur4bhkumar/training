@@ -16,19 +16,19 @@ def Home(request):
 
 @login_required
 def tasks_list(request):
-    task_list = Task.objects.all()
-    title = request.GET.get("title", "")
-    due_date = request.GET.get("due_date", "")
+    task_list = Task.objects.all().order_by("-created_at")
+    title = request.GET.get("title")
+    due_date = request.GET.get("due_date")
     owner = request.user
 
+    if owner.is_superuser:
+        task_list = Task.objects.all()
     if title:
         task_list = task_list.filter(title__icontains=title)
     if due_date:
         task_list = task_list.filter(due_date=due_date)
     if owner:
         task_list = task_list.filter(owner=owner)
-    if owner.is_superuser:
-        task_list = Task.objects.all()
 
     paginator = Paginator(task_list, 5)
 

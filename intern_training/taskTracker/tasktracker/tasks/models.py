@@ -8,6 +8,7 @@ from django.db import models
 class Task(models.Model):
     class Meta:
         get_latest_by = "-created_at"
+        ordering = ["-created_at"]
 
     title = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=200)

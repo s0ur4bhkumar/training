@@ -14,7 +14,7 @@ from ..serializers import TaskSerializer, UserSerializer
 @csrf_exempt
 def TaskListApiView(request):
     """
-    list all tasks
+    list all tasks and create
     """
     authentication_classes = {SessionAuthentication}
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -34,6 +34,9 @@ def TaskListApiView(request):
 
 @csrf_exempt
 def taskDetailApiView(request, pk):
+    """
+    test for update and delete
+    """
     authentication_classes = {SessionAuthentication}
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
