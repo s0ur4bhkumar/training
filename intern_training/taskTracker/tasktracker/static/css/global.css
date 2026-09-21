@@ -74,3 +74,43 @@ input {
     border: none;
     font-size: 1.5rem;
 }
+
+.messages > li {
+    list-style: none;
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    50% {
+        opacity: 1;
+        visibility: visible;
+    }
+    90% {
+        opacity: 0;
+        visibility: hidden;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.success {
+    animation: fadeout 3s forwards;
+    border: 2px solid skyblue;
+    border-radius: 12px;
+    padding: 1rem;
+    color: springgreen;
+    font-size: 1rem;
+}
+
+.error {
+    border: 2px solid orangered;
+    border-radius: 12px;
+    padding: 1rem;
+    color: lightsalmon;
+    font-size: 1.75rem;
+}

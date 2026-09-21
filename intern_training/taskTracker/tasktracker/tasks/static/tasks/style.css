@@ -18,6 +18,7 @@
 .task_list > li {
     justify-content: space-between;
     flex-direction: row;
+    gap: 2rem;
 }
 
 .update_task {
@@ -26,7 +27,7 @@
 
 .edit_tools {
     display: flex;
-    gap: 12px;
+    gap: 1rem;
 }
 
 p,
@@ -131,6 +132,12 @@ input {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    display: block;
+}
+
+.task_title {
+    display: flex;
+    flex-direction: column;
 }
 
 .helptext {
@@ -174,43 +181,8 @@ input::placeholder {
     font-size: 2rem;
 }
 
-@keyframes fadeout {
-    0% {
-        opacity: 1;
-        visibility: visible;
-    }
-    50% {
-        opacity: 1;
-        visibility: visible;
-    }
-    90% {
-        opacity: 0;
-        visibility: hidden;
-    }
-    100% {
-        opacity: 0;
-        display: none;
-    }
-}
 
-.success.messages {
-    animation: fadeout 3s forwards;
-    border: 2px solid skyblue;
-    border-radius: 12px;
-    padding: 1rem;
-}
-
-.success.messages > p {
-    color: springgreen;
-    font-size: 1rem;
-}
-
-.error.messages {
-    border: 2px solid orangered;
-    border-radius: 12px;
-    padding: 1rem;
-}
-.error.messages > p {
-    color: lightsalmon;
-    font-size: 1.75rem;
+.badge {
+    width: 10px;
+    height: 10px;
 }

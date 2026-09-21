@@ -6,14 +6,15 @@
 
 {% block content%}
     <div class = 'task_list'>
-
-        {% if messages %}
-            <ul class="success messages">
-                {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-                {% endfor %}
-            </ul>
-        {% endif %}
+        {% comment %}
+            {% if messages %}
+                <ul class="success messages">
+                    {% for message in messages %}
+                        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endcomment %}
         {% if form.errors %}
 
            {{form.errors}}
@@ -22,8 +23,15 @@
 
         {% for page in pages %}
             <li class='task'>
-                <p class = 'task_title'>{{page.title}}</p>
+                <p class = 'task_title'>
+                    <strong>
+                        {{page.title|truncatewords:2}}
+                    </strong>
+                </p>
+                <p> -By {{page.owner|title}} on  {{page.created_at|date:'M, d Y'}} </p>
                 <div class = 'edit_tools'>
+                    {% load status_badge %}
+                    <p>{{page.status|badge}}</p>
                     <a class = 'delete_task' href="{% url 'tasks:task_details' page.pk %}"> 🛈 </a>
                     <a class = 'update_task' href="{% url 'tasks:update_task' page.pk %}"> ✏️ </a>
                     <a class = 'delete_task' href="{% url 'tasks:delete_task' page.pk %}"> &#10060;</a>

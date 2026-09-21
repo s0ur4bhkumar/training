@@ -23,13 +23,12 @@ def tasks_list(request):
 
     if owner.is_superuser:
         task_list = Task.objects.all()
-    if title:
+    elif title:
         task_list = task_list.filter(title__icontains=title)
-    if due_date:
+    elif due_date:
         task_list = task_list.filter(due_date=due_date)
-    if owner:
+    elif owner:
         task_list = task_list.filter(owner=owner)
-
     paginator = Paginator(task_list, 5)
 
     try:

@@ -27,9 +27,20 @@
         </nav>
     </header>
     <main>
-        {% block content%}
-            hello
-        {% endblock %}
+        <section class="messages_section">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+        <section>
+            {% block content%}
+                hello
+            {% endblock %}
+        </section>
     </main>
     <footer>&copy Demo 2026</footer>
 </body>

@@ -7,7 +7,6 @@ from typing import override
 
 from dateutil.relativedelta import relativedelta
 from django import forms
-from django.contrib.admin import widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -29,19 +28,25 @@ class TaskForm(forms.ModelForm):
         fields = ["title", "description", "status", "due_date"]
 
     def clean_due_date(self):
+        """
+        due_date validation
+        """
         deadline = self.cleaned_data.get("due_date")
         today = datetime.date.today()
         max_date = today + relativedelta(months=1)
-
-        if deadline < today:
-            raise ValidationError("due_date can't be in the past")
-        elif deadline > max_date:
-            print("max_date: ", max_date)
-            print("today: ", today)
-            raise ValidationError("due_date can't be greater than 4 weeks from now")
-        return deadline
+        if deadline is not None:
+            if deadline < today:
+                raise ValidationError("due_date can't be in the past")
+            elif deadline > max_date:
+                print("max_date: ", max_date)
+                print("today: ", today)
+                raise ValidationError("due_date can't be greater than 4 weeks from now")
+            return deadline
 
     def clean_status(self):
+        """
+        status validation
+        """
         status = self.cleaned_data.get("status")
 
         if status.lower() not in ["todo", "done", "pending"]:
